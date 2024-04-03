@@ -100,10 +100,22 @@
     max-width: 80%;
 }
 
+.chatMessageUserIcon {
+    max-width: 3em;
+    max-height: 3em;
+    margin-left: 1.5em;
+}
+
 .chatMessageGpt {
     margin-bottom: 12px;
     max-width: 80%;
     display: flex;
+}
+
+.chatMessageGptIcon {
+    max-width: 3em;
+    max-height: 3em;
+    margin-right: 1.5em;
 }
 
 .chatMessageError {

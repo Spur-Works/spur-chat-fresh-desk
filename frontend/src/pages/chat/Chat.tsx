@@ -11,6 +11,8 @@ import DOMPurify from 'dompurify';
 
 import styles from "./Chat.module.css";
 import Contoso from "../../assets/Contoso.svg";
+import Avatar from "../../assets/avatar.png";
+import Bot from "../../assets/bot.png";
 import { XSSAllowTags } from "../../constants/xssAllowTags";
 
 import {
@@ -76,9 +78,9 @@ const Chat = () => {
     const NO_CONTENT_ERROR = "No content in messages object."
 
     useEffect(() => {
-        if (appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.Working  
+        if (appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.Working
             && appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured
-            && appStateContext?.state.chatHistoryLoadingState === ChatHistoryLoadingState.Fail 
+            && appStateContext?.state.chatHistoryLoadingState === ChatHistoryLoadingState.Fail
             && hideErrorDialog) {
             let subtitle = `${appStateContext.state.isCosmosDBAvailable.status}. Please contact the site administrator.`
             setErrorMsg({
@@ -386,7 +388,7 @@ const Chat = () => {
                             } else {
                                 console.log("Incomplete message. Continuing...")
                             }
-                         }
+                        }
                     });
                 }
 
@@ -460,7 +462,7 @@ const Chat = () => {
                             role: ERROR,
                             content: errorMessage,
                             date: new Date().toISOString()
-                        } 
+                        }
                         setMessages([...messages, userMessage, errorChatMsg])
                         setIsLoading(false);
                         setShowLoadingMessage(false);
@@ -553,7 +555,7 @@ const Chat = () => {
                     return
                 }
                 const noContentError = appStateContext.state.currentChat.messages.find(m => m.role === ERROR)
-                
+
                 if (noContentError && !noContentError.content.includes(NO_CONTENT_ERROR)) {
                     saveToDB(appStateContext.state.currentChat.messages, appStateContext.state.currentChat.id)
                         .then((res) => {
@@ -637,7 +639,7 @@ const Chat = () => {
                     <ShieldLockRegular className={styles.chatIcon} style={{ color: 'darkorange', height: "200px", width: "200px" }} />
                     <h1 className={styles.chatEmptyStateTitle}>Authentication Not Configured</h1>
                     <h2 className={styles.chatEmptyStateSubtitle}>
-                        This app does not have authentication configured. Please add an identity provider by finding your app in the <a href="https://portal.azure.com/" target="_blank">Azure Portal</a> 
+                        This app does not have authentication configured. Please add an identity provider by finding your app in the <a href="https://portal.azure.com/" target="_blank">Azure Portal</a>
                         and following <a href="https://learn.microsoft.com/en-us/azure/app-service/scenario-secure-app-authentication-app-service#3-configure-authentication-and-authorization" target="_blank">these instructions</a>.
                     </h2>
                     <h2 className={styles.chatEmptyStateSubtitle} style={{ fontSize: "20px" }}><strong>Authentication configuration takes a few minutes to apply. </strong></h2>
@@ -663,9 +665,10 @@ const Chat = () => {
                                         {answer.role === "user" ? (
                                             <div className={styles.chatMessageUser} tabIndex={0}>
                                                 <div className={styles.chatMessageUserMessage}>{answer.content}</div>
+                                                <img className={styles.chatMessageUserIcon} src={Avatar} />
                                             </div>
                                         ) : (
-                                            answer.role === "assistant" ? <div className={styles.chatMessageGpt}>
+                                            answer.role === "assistant" ? <div className={styles.chatMessageUser}><img className={styles.chatMessageGptIcon} src={Bot} /><div className={styles.chatMessageGpt}>
                                                 <Answer
                                                     answer={{
                                                         answer: answer.content,
@@ -675,7 +678,7 @@ const Chat = () => {
                                                     }}
                                                     onCitationClicked={c => onShowCitation(c)}
                                                 />
-                                            </div> : answer.role === ERROR ? <div className={styles.chatMessageError}>
+                                            </div></div> : answer.role === ERROR ? <div className={styles.chatMessageError}>
                                                 <Stack horizontal className={styles.chatMessageErrorContent}>
                                                     <ErrorCircleRegular className={styles.errorIcon} style={{ color: "rgba(182, 52, 67, 1)" }} />
                                                     <span>Error</span>
@@ -795,7 +798,7 @@ const Chat = () => {
                                 <ReactMarkdown
                                     linkTarget="_blank"
                                     className={styles.citationPanelContent}
-                                    children={DOMPurify.sanitize(activeCitation.content, {ALLOWED_TAGS: XSSAllowTags})}
+                                    children={DOMPurify.sanitize(activeCitation.content, { ALLOWED_TAGS: XSSAllowTags })}
                                     remarkPlugins={[remarkGfm]}
                                     rehypePlugins={[rehypeRaw]}
                                 />
