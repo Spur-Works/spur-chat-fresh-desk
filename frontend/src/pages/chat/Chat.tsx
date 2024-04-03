@@ -668,7 +668,7 @@ const Chat = () => {
                                                 <img className={styles.chatMessageUserIcon} src={Avatar} />
                                             </div>
                                         ) : (
-                                            answer.role === "assistant" ? <div className={styles.chatMessageUser}><img className={styles.chatMessageGptIcon} src={Bot} /><div className={styles.chatMessageGpt}>
+                                            answer.role === "assistant" ? <div className={styles.chatMessageBot}><img className={styles.chatMessageGptIcon} src={Bot} /><div className={styles.chatMessageGpt}>
                                                 <Answer
                                                     answer={{
                                                         answer: answer.content,

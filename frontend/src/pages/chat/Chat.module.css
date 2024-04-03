@@ -82,6 +82,12 @@
     margin-bottom: 12px;
 }
 
+.chatMessageBot {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 12px;
+}
+
 .chatMessageUserMessage {
     display: flex;
     padding: 20px;
