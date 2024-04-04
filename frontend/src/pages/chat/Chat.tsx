@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from "rehype-raw";
 import uuid from 'react-uuid';
-import { isEmpty } from "lodash-es";
+import { isEmpty, set } from "lodash-es";
 import DOMPurify from 'dompurify';
 
 import styles from "./Chat.module.css";
@@ -58,7 +58,8 @@ const Chat = () => {
     const [processMessages, setProcessMessages] = useState<messageStatus>(messageStatus.NotRunning);
     const [clearingChat, setClearingChat] = useState<boolean>(false);
     const [hideErrorDialog, { toggle: toggleErrorDialog }] = useBoolean(true);
-    const [errorMsg, setErrorMsg] = useState<ErrorMessage | null>()
+    const [errorMsg, setErrorMsg] = useState<ErrorMessage | null>();
+    const [userInitials, setUserInitials] = useState<string>("");
 
     const errorDialogContentProps = {
         type: DialogType.close,
@@ -108,6 +109,8 @@ const Chat = () => {
             return;
         }
         const userInfoList = await getUserInfo();
+        setUserInitials(userInfoList[0]?.user_id?.charAt(0) + userInfoList[0]?.user_id?.charAt(1));
+        console.log('user initials', userInitials)
         if (userInfoList.length === 0 && window.location.hostname !== "127.0.0.1") {
             setShowAuthMessage(true);
         }
@@ -689,17 +692,18 @@ const Chat = () => {
                                     </>
                                 ))}
                                 {showLoadingMessage && (
-                                    <>
+                                    <div className={styles.chatMessageBot}>
+                                        <img className={styles.chatMessageGptIcon} src={Bot} />
                                         <div className={styles.chatMessageGpt}>
                                             <Answer
                                                 answer={{
-                                                    answer: "Generating answer...",
+                                                    answer: "Scouring resources for information...",
                                                     citations: []
                                                 }}
                                                 onCitationClicked={() => null}
                                             />
                                         </div>
-                                    </>
+                                    </div>
                                 )}
                                 <div ref={chatMessageStreamEnd} />
                             </div>

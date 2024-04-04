@@ -1,6 +1,7 @@
 .container {
     max-height: calc(100vh - 100px);
     width: 300px;
+    background-color: white;
 }
 
 .listContainer {
@@ -74,6 +75,6 @@
 
 @media (max-width: 480px) {
     .container {
-        width: 100%; 
+        width: 100%;
     }
 }
