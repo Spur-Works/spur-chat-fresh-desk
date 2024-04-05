@@ -24,7 +24,7 @@ export async function getUserInfo() {
     }
 
     const payload = await response.json();
-    const accessToken = payload[0]?.access_tokens?.['microsoft'] // This path depends on your actual payload structure!
+    const accessToken = payload[0]?.access_token; // This path depends on your actual payload structure!
 
     if (accessToken) {
         const graphResponse = await fetch('https://graph.microsoft.com/v1.0/me/photo/$value', {
