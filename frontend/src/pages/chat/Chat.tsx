@@ -59,7 +59,7 @@ const Chat = () => {
     const [clearingChat, setClearingChat] = useState<boolean>(false);
     const [hideErrorDialog, { toggle: toggleErrorDialog }] = useBoolean(true);
     const [errorMsg, setErrorMsg] = useState<ErrorMessage | null>();
-    const [userInitials, setUserInitials] = useState<string>("");
+    const [userPhoto, setUserPhoto] = useState<string>("");
 
     const errorDialogContentProps = {
         type: DialogType.close,
@@ -109,8 +109,8 @@ const Chat = () => {
             return;
         }
         const userInfoList = await getUserInfo();
-        setUserInitials(userInfoList[0]?.user_id?.charAt(0) + userInfoList[0]?.user_id?.charAt(1));
-        console.log('user initials', userInitials)
+        setUserPhoto(userInfoList.imageUrl);
+        console.log('user info list', userInfoList);
         if (userInfoList.length === 0 && window.location.hostname !== "127.0.0.1") {
             setShowAuthMessage(true);
         }
@@ -668,7 +668,7 @@ const Chat = () => {
                                         {answer.role === "user" ? (
                                             <div className={styles.chatMessageUser} tabIndex={0}>
                                                 <div className={styles.chatMessageUserMessage}>{answer.content}</div>
-                                                <img className={styles.chatMessageUserIcon} src={Avatar} />
+                                                <img className={styles.chatMessageUserIcon} src={userPhoto} />
                                             </div>
                                         ) : (
                                             answer.role === "assistant" ? <div className={styles.chatMessageBot}><img className={styles.chatMessageGptIcon} src={Bot} /><div className={styles.chatMessageGpt}>
