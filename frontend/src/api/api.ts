@@ -24,6 +24,7 @@ export async function getUserInfo() {
     }
 
     const payload = await response.json();
+    console.log('payload', payload);
     const accessToken = payload[0]?.access_token; // This path depends on your actual payload structure!
 
     if (accessToken) {
@@ -37,7 +38,7 @@ export async function getUserInfo() {
             console.error("Failed to retrieve profile picture from Microsoft Graph.");
             return payload; // Return the original payload or handle differently
         }
-
+        console.log('graphResponse', graphResponse);
         // Handle the binary data for the image here as needed
         // Example: Convert the response to a Blob URL and add it to the user info
 
