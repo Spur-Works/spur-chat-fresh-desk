@@ -25,6 +25,8 @@ export async function getUserInfo() {
 
     const payload = await response.json();
     console.log('payload', payload);
+    console.log('payload[0]', payload[0]);
+    console.log('payload[0].acces_token', payload[0].access_token);
     const accessToken = payload[0]?.access_token; // This path depends on your actual payload structure!
 
     if (accessToken) {
