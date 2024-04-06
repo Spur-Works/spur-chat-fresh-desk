@@ -109,8 +109,8 @@ const Chat = () => {
             return;
         }
         const userInfoList = await getUserInfo();
-        setUserPhoto(userInfoList.imageUrl);
-        console.log('user info list image url', userInfoList.imageUrl);
+        setUserPhoto(userInfoList[0].imageUrl);
+        console.log('user info list image url', userInfoList[0].imageUrl);
         console.log('user info list', userInfoList);
         if (userInfoList.length === 0 && window.location.hostname !== "127.0.0.1") {
             setShowAuthMessage(true);
