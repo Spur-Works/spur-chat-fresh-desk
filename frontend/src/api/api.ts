@@ -24,9 +24,6 @@ export async function getUserInfo() {
     }
 
     const payload = await response.json();
-    console.log('payload', payload);
-    console.log('payload[0]', payload[0]);
-    console.log('payload[0].acces_token', payload[0].access_token);
     const accessToken = payload[0]?.access_token; // This path depends on your actual payload structure!
 
     if (accessToken) {
@@ -38,20 +35,17 @@ export async function getUserInfo() {
 
         if (!graphResponse.ok) {
             console.error("Failed to retrieve profile picture from Microsoft Graph.");
-            return payload; // Return the original payload or handle differently
+            return payload;
         }
-        console.log('graphResponse', graphResponse);
-        // Handle the binary data for the image here as needed
-        // Example: Convert the response to a Blob URL and add it to the user info
 
         const blob = await graphResponse.blob();
         const imageUrl = URL.createObjectURL(blob);
-        // Extend your user info object to include the image URL
+
         const extendedPayload = payload.map((user: any) => ({ ...user, imageUrl }));
         return extendedPayload;
     } else {
         console.log("Access token for Microsoft Graph not found.");
-        return payload; // Or handle as needed
+        return payload;
     }
 }
 
