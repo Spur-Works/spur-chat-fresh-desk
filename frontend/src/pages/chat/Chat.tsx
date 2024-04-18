@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from "rehype-raw";
 import uuid from 'react-uuid';
-import { isEmpty, set } from "lodash-es";
+import { isEmpty } from "lodash";
 import DOMPurify from 'dompurify';
 
 import styles from "./Chat.module.css";
@@ -53,7 +53,7 @@ const Chat = () => {
     const [activeCitation, setActiveCitation] = useState<Citation>();
     const [isCitationPanelOpen, setIsCitationPanelOpen] = useState<boolean>(false);
     const abortFuncs = useRef([] as AbortController[]);
-    const [showAuthMessage, setShowAuthMessage] = useState<boolean>(true);
+    const [showAuthMessage, setShowAuthMessage] = useState<boolean | undefined>();
     const [messages, setMessages] = useState<ChatMessage[]>([])
     const [processMessages, setProcessMessages] = useState<messageStatus>(messageStatus.NotRunning);
     const [clearingChat, setClearingChat] = useState<boolean>(false);
@@ -559,7 +559,7 @@ const Chat = () => {
                 }
                 const noContentError = appStateContext.state.currentChat.messages.find(m => m.role === ERROR)
 
-                if (noContentError && !noContentError.content.includes(NO_CONTENT_ERROR)) {
+                if (!noContentError?.content.includes(NO_CONTENT_ERROR)) {
                     saveToDB(appStateContext.state.currentChat.messages, appStateContext.state.currentChat.id)
                         .then((res) => {
                             if (!res.ok) {
