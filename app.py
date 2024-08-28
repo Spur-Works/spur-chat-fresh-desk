@@ -48,6 +48,7 @@ UI_CHAT_DESCRIPTION = (
 )
 UI_FAVICON = os.environ.get("UI_FAVICON") or "/favicon.ico"
 UI_SHOW_SHARE_BUTTON = os.environ.get("UI_SHOW_SHARE_BUTTON", "true").lower() == "true"
+UI_FEEDBACK_URL = os.environ.get("UI_FEEDBACK_URL")
 
 
 def create_app():
@@ -261,6 +262,7 @@ frontend_settings = {
         "chat_title": UI_CHAT_TITLE,
         "chat_description": UI_CHAT_DESCRIPTION,
         "show_share_button": UI_SHOW_SHARE_BUTTON,
+        "feedback_url": UI_FEEDBACK_URL,
     },
     "sanitize_answer": SANITIZE_ANSWER,
 }

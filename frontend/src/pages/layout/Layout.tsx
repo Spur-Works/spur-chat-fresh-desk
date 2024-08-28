@@ -2,7 +2,7 @@ import { Outlet, Link } from "react-router-dom";
 import styles from "./Layout.module.css";
 import Contoso from "../../assets/Contoso.svg";
 import { CopyRegular } from "@fluentui/react-icons";
-import { Dialog, Stack, TextField } from "@fluentui/react";
+import { DefaultButton, Dialog, Stack, TextField } from "@fluentui/react";
 import { useContext, useEffect, useState } from "react";
 import { HistoryButton, ShareButton } from "../../components/common/Button";
 import { AppStateContext } from "../../state/AppProvider";
@@ -36,6 +36,10 @@ const Layout = () => {
     const handleHistoryClick = () => {
         appStateContext?.dispatch({ type: 'TOGGLE_CHAT_HISTORY' })
     };
+    
+    const openFeedbackUrl = () => {
+        if (ui?.feedback_url) window.open(ui.feedback_url, "_blank");
+    }
 
     useEffect(() => {
         if (copyClicked) {
@@ -79,6 +83,14 @@ const Layout = () => {
                         </Link>
                     </Stack>
                     <Stack horizontal tokens={{ childrenGap: 4 }} className={styles.shareButtonContainer}>
+                        {ui?.feedback_url && 
+                            <DefaultButton
+                                className={styles.historyButtonRoot}
+                                text="Send feedback"
+                                iconProps={{ iconName: 'Blog' }}
+                                onClick={openFeedbackUrl}
+                            />
+                        }
                         {(appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured) &&
                             <HistoryButton onClick={handleHistoryClick} text={appStateContext?.state?.isChatHistoryOpen ? hideHistoryLabel : showHistoryLabel} />
                         }
